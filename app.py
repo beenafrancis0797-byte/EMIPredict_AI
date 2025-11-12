@@ -46,6 +46,15 @@ def load_models_and_preproc():
     clf_path = find_model_file("best_classifier") or find_model_file("clf")
     reg_path = find_model_file("best_regressor") or find_model_file("reg")
 
+    # --- fallback: check repo root for exact filenames (useful if files were uploaded to repo root) ---
+    if (not clf_path) and (ARTIFACTS_DIR / "best_classifier_XGBoostClassifier.joblib").exists():
+        clf_path = ARTIFACTS_DIR / "best_classifier_XGBoostClassifier.joblib"
+    if (not reg_path) and (ARTIFACTS_DIR / "best_regressor_XGBRegressor.joblib").exists():
+        reg_path = ARTIFACTS_DIR / "best_regressor_XGBRegressor.joblib"
+    # also fallback for preprocessor exact filename in root (already set above, but ensure)
+    if (pre_path is None or (isinstance(pre_path, Path) and not pre_path.exists())) and (ARTIFACTS_DIR / PREPROCESSOR_FILE).exists():
+        pre_path = ARTIFACTS_DIR / PREPROCESSOR_FILE
+
     # preprocessor
     if pre_path and str(pre_path) not in ("", "None") and Path(pre_path).exists():
         pre_loaded = safe_joblib_load(pre_path)

@@ -1,0 +1,11 @@
+.ipynb_checkpoints/ 
+mlruns/ 
+model_results/ 
+*.joblib 
+*.csv 
+*.json 
+__pycache__/ 
+*.pkl 
+*.log 
+.env 
+venv/ 
